@@ -1,0 +1,41 @@
+{
+  "name": "server-v-1.0.0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest --coverage --runInBand --detectOpenHandles --watchAll",
+    "start": "fastify start -l info app.js",
+    "dev": "fastify start -w -l info -P app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "argon2": "^0.28.2",
+    "connect-mongo": "^4.5.0",
+    "dotenv": "^10.0.0",
+    "express-session": "^1.17.2",
+    "fastify": "^3.0.0",
+    "fastify-autoload": "^3.3.1",
+    "fastify-cli": "^2.13.0",
+    "fastify-cookie": "^5.3.1",
+    "fastify-plugin": "^3.0.0",
+    "fastify-sensible": "^3.1.0",
+    "fastify-session": "^5.2.1",
+    "fastify-swagger": "^4.8.4",
+    "googleapis": "^84.0.0",
+    "jest": "^27.0.6",
+    "moment": "^2.29.1",
+    "mongoose": "^5.13.7",
+    "nanoid": "^3.1.25",
+    "nodemailer": "^6.6.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.1",
+    "tap": "^15.0.9"
+  }
+}
