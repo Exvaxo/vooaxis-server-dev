@@ -13,7 +13,7 @@ module.exports = fp((fastify, opts, next) => {
         url: "https://swagger.io",
         description: "Find more info here",
       },
-      host: "127.0.0.1:3000",
+      host: "localhost:3000",
       schemes: ["http"],
       consumes: ["application/json"],
       produces: ["application/json"],

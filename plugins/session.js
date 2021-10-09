@@ -15,7 +15,7 @@ const plugin = async (fastify) => {
     }),
     saveUninitialized: true,
     cookie: {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV !== "development",
     },
   });

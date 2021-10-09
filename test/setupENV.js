@@ -10,6 +10,12 @@ module.exports = function setupENV() {
 
   process.env.SESSION_SECRET = "4e3ef24d26c13de712679ef8b92964b0";
   process.env.RESET_PASSWORD_TOKEN_PREFIX = "vooaxis-reset-password-token";
+  OAUTH_CLIENT_ID =
+    "65302818920-3ek3v77g0klukvg0950pl4876iao9i0g.apps.googleusercontent.com";
+  OAUTH_CLIENT_SECRET = "WTnO3JTC2DgAfs20Bwl5d2Up";
+  OAUTH_REFRESH_TOKEN =
+    "1//04k8Tvd6CAagZCgYIARAAGAQSNwF-L9Ir70GwVJoV2me1eYm0rlfU5yU3LazPuWXZ3BRvLGv6UqRSlOI35vFFtaXvMJ9kPStRjAE";
+  OAUTH_REDIRECT_URI = "https://developers.google.com/oauthplayground";
   //setup server
   const server = fastify({
     logger: { level: process.env.LOG_LEVEL || "silent" },
