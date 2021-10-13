@@ -1,6 +1,6 @@
 const count = async (request, reply, fastify) => {
   try {
-    const count = await fastify.Note.estimatedDocumentCount({});
+    const count = await fastify.Blog.estimatedDocumentCount({});
     reply.code(200).send({ count });
   } catch (error) {
     reply.code(500).send({ msg: "server error" });

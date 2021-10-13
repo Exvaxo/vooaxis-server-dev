@@ -1,8 +1,9 @@
-const deleteNote = async (request, reply, fastify) => {
+const removeMedia = async (request, reply, fastify) => {
   try {
     const { id } = request.params;
-    const _id = request.user;
-    await fastify.Note.deleteOne({ _id: id, user: _id });
+    await fastify.MediaBank.deleteOne({
+      _id: id,
+    });
     reply.code(204).send("no content");
   } catch (error) {
     reply.code(500).send({ msg: "server error" });
@@ -10,4 +11,4 @@ const deleteNote = async (request, reply, fastify) => {
   }
 };
 
-module.exports = deleteNote;
+module.exports = removeMedia;

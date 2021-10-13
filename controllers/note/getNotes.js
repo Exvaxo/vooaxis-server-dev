@@ -41,7 +41,7 @@ const getNotes = async (request, reply, fastify) => {
     }
     reply.code(200).send(notes);
   } catch (error) {
-    fastify.httpErrors.internalServerError();
+    reply.code(500).send({ msg: "server error" });
     fastify.log.error(error);
   }
 };

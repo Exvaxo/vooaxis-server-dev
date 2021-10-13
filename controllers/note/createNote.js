@@ -5,7 +5,7 @@ const createNote = async (request, reply, fastify) => {
     const note = await fastify.Note.create({ title, body, user: _id });
     reply.code(201).send(note);
   } catch (error) {
-    fastify.httpErrors.internalServerError();
+    reply.code(500).send({ msg: "server error" });
     fastify.log.error(error);
   }
 };

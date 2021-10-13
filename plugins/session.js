@@ -16,6 +16,9 @@ const plugin = async (fastify) => {
     saveUninitialized: true,
     cookie: {
       httpOnly: false,
+      maxAge: new Date().setTime(
+        new Date().getTime() + 3650 * 24 * 60 * 60 * 1000
+      ),
       secure: process.env.NODE_ENV !== "development",
     },
   });
