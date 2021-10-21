@@ -16,7 +16,7 @@ const resetPassword = async (request, reply, fastify) => {
 
     const hash = await argon2.hash(password);
 
-    await fastify.Staff.updateOne({ password: hash });
+    await fastify.Staff.updateOne({ _id: staff.uid }, { password: hash });
 
     request.session.staff = {
       staffId: staff.uid,

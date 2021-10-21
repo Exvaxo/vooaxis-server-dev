@@ -3,6 +3,7 @@
 const {
   createBlog,
   getStaffBlogs,
+  getStaffSingleBlog,
   updateBlog,
   deleteBlog,
   getCount,
@@ -27,24 +28,6 @@ module.exports = async function (fastify) {
           documentId: {
             type: "string",
           },
-          slug: {
-            type: "string",
-          },
-          title: {
-            type: "string",
-          },
-          subtitle: {
-            type: "string",
-          },
-          category: {
-            type: "string",
-          },
-          thumbnail: {
-            type: "string",
-          },
-          body: {
-            type: "string",
-          },
         },
       },
       response: {
@@ -58,24 +41,6 @@ module.exports = async function (fastify) {
             documentId: {
               type: "string",
             },
-            slug: {
-              type: "string",
-            },
-            title: {
-              type: "string",
-            },
-            subtitle: {
-              type: "string",
-            },
-            category: {
-              type: "string",
-            },
-            thumbnail: {
-              type: "string",
-            },
-            body: {
-              type: "string",
-            },
           },
         },
         401: {
@@ -86,6 +51,15 @@ module.exports = async function (fastify) {
             },
           },
         },
+        403: {
+          type: "object",
+          properties: {
+            msg: {
+              type: "string",
+            },
+          },
+        },
+
         500: {
           type: "object",
           properties: {
@@ -114,43 +88,57 @@ module.exports = async function (fastify) {
       },
       response: {
         200: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              _id: {
-                type: "string",
-                description: "unique identifier",
-              },
-              documentId: {
-                type: "string",
-              },
-              slug: {
-                type: "string",
-              },
-              title: {
-                type: "string",
-              },
-              subtitle: {
-                type: "string",
-              },
-              category: {
-                type: "string",
-              },
-              thumbnail: {
-                type: "string",
-              },
-              body: {
-                type: "string",
-              },
-              staff: {
+          type: "object",
+          properties: {
+            data: {
+              type: "array",
+              items: {
                 type: "object",
                 properties: {
-                  username: {
+                  _id: {
                     type: "string",
+                    description: "unique identifier",
+                  },
+                  documentId: {
+                    type: "string",
+                  },
+                  slug: {
+                    type: "string",
+                  },
+                  title: {
+                    type: "string",
+                  },
+                  subtitle: {
+                    type: "string",
+                  },
+                  category: {
+                    type: "string",
+                  },
+                  thumbnail: {
+                    type: "string",
+                  },
+                  body: {
+                    type: "string",
+                  },
+                  isPublished: {
+                    type: "boolean",
+                  },
+                  isUnderReview: {
+                    type: "boolean",
+                  },
+                  staff: {
+                    type: "object",
+                    properties: {
+                      username: {
+                        type: "string",
+                      },
+                    },
                   },
                 },
               },
+            },
+            pages: {
+              type: "number",
             },
           },
         },
@@ -174,6 +162,78 @@ module.exports = async function (fastify) {
     },
     preHandler: staffAuth,
     handler: (request, reply) => getStaffBlogs(request, reply, fastify),
+  });
+
+  // @route   GET staff_single_blog
+  // @desc    gets Blog by docId
+  // @access  private
+  fastify.route({
+    method: "GET",
+    url: "/staff_single_blog/:docId",
+    schema: {
+      tags: ["Blogs"],
+      description: "get single posts for staff",
+      params: {
+        type: "object",
+        required: ["docId"],
+        properties: {
+          docId: { type: "string" },
+        },
+      },
+      response: {
+        200: {
+          type: "object",
+          properties: {
+            _id: {
+              type: "string",
+              description: "unique identifier",
+            },
+            documentId: {
+              type: "string",
+            },
+            slug: {
+              type: "string",
+            },
+            title: {
+              type: "string",
+            },
+            subtitle: {
+              type: "string",
+            },
+            category: {
+              type: "string",
+            },
+            thumbnail: {
+              type: "string",
+            },
+            body: {
+              type: "string",
+            },
+            isPublished: {
+              type: "boolean",
+            },
+          },
+        },
+        401: {
+          type: "object",
+          properties: {
+            msg: {
+              type: "string",
+            },
+          },
+        },
+        500: {
+          type: "object",
+          properties: {
+            msg: {
+              type: "string",
+            },
+          },
+        },
+      },
+    },
+    preHandler: staffAuth,
+    handler: (request, reply) => getStaffSingleBlog(request, reply, fastify),
   });
 
   // @route   GET Blog/count
@@ -233,7 +293,6 @@ module.exports = async function (fastify) {
       },
       body: {
         type: "object",
-        required: ["title", "body"],
         properties: {
           slug: {
             type: "string",
@@ -253,6 +312,12 @@ module.exports = async function (fastify) {
           body: {
             type: "string",
           },
+          isPublished: {
+            type: "boolean",
+          },
+          isUnderReview: {
+            type: "boolean",
+          },
         },
       },
       response: {
@@ -263,23 +328,37 @@ module.exports = async function (fastify) {
               type: "string",
               description: "unique identifier",
             },
+
             slug: {
               type: "string",
             },
+
             title: {
               type: "string",
             },
+
             subtitle: {
               type: "string",
             },
+
             category: {
               type: "string",
             },
+
             thumbnail: {
               type: "string",
             },
+
             body: {
               type: "string",
+            },
+
+            isPublished: {
+              type: "boolean",
+            },
+
+            isUnderReview: {
+              type: "boolean",
             },
           },
         },

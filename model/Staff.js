@@ -1,6 +1,8 @@
 const { Schema, model } = require("mongoose");
 
 const staffSchema = new Schema({
+  firstName: String,
+  lastName: String,
   username: {
     type: String,
     unique: true,
@@ -10,6 +12,11 @@ const staffSchema = new Schema({
     unique: true,
   },
   password: String,
+
+  permission: {
+    type: Schema.Types.ObjectId,
+    ref: "Permission",
+  },
 });
 
 const Staff = model("Staff", staffSchema);
