@@ -5,6 +5,8 @@ const signin = async (request, reply, fastify) => {
   try {
     const user = await fastify.User.findOne({
       $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
+    }).populate({
+      path: "permission",
     });
 
     if (!user) {
@@ -20,7 +22,7 @@ const signin = async (request, reply, fastify) => {
     }
 
     request.session.user = { userId: user._id, isLoggedIn: true };
-    reply.code(200).send({ username: user.username, email: user.email });
+    reply.code(200).send(user);
   } catch (error) {
     reply.code(500).send({ msg: "server error" });
     fastify.log.error(error);

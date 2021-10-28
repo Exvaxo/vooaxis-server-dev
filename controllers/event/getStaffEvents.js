@@ -1,15 +1,15 @@
-const getStaffBlogs = async (request, reply, fastify) => {
+const getStaffEvents = async (request, reply, fastify) => {
   try {
     const _id = request.staff;
     const filter = request.query;
     const page = request.query.page;
-    let blogs;
+    let events;
     let pages = 1;
     let filters = {};
     let perPage = 2;
 
     const isEligible = await fastify.getPermissions(_id, [
-      { rule: "Blog", priviledges: ["read"] },
+      { rule: "Event", priviledges: ["read"] },
     ]);
 
     if (!isEligible) {
@@ -19,13 +19,11 @@ const getStaffBlogs = async (request, reply, fastify) => {
       return;
     }
 
+    //filters.staff = _id;
+
     if (filter["filter[isPublished]"]) {
       filters.isPublished =
         filter["filter[isPublished]"] === "true" ? true : false;
-    }
-
-    if (filter["filter[category]"]) {
-      filters.category = filter["filter[category]"];
     }
 
     if (filter["filter[isUnderReview]"]) {
@@ -34,10 +32,10 @@ const getStaffBlogs = async (request, reply, fastify) => {
     }
 
     if (filter["filter[body]"]) {
-      blogs = await fastify.Blog.aggregate([
+      events = await fastify.Event.aggregate([
         {
           $search: {
-            index: "blogs_body_search",
+            index: "events_body_search",
             text: {
               query: filter["filter[body]"],
               path: {
@@ -69,13 +67,16 @@ const getStaffBlogs = async (request, reply, fastify) => {
             // controls the visibility
             _id: 1,
             title: 1,
-            subtitle: 1,
             slug: 1,
+            date: 1,
             thumbnail: 1,
-            category: 1,
-            body: 1,
-            isUnderReview: 1,
+            eventDetails: 1,
+            linkType: 1,
+            link: 1,
+            informations: 1,
             isPublished: 1,
+            isUnderReview: 1,
+            tabs: 1,
             staff: {
               username: 1,
             },
@@ -83,21 +84,21 @@ const getStaffBlogs = async (request, reply, fastify) => {
         },
       ]);
     } else {
-      blogs = await fastify.Blog.find(filters)
+      events = await fastify.Event.find(filters)
         .limit(perPage)
         .skip(perPage * (page - 1))
         .populate({
           path: "staff",
           select: "username",
         });
-      const count = await fastify.Blog.count(filters);
+      const count = await fastify.Event.count(filters);
       pages = Math.ceil(parseInt(count) / perPage);
     }
-    reply.code(200).send({ data: blogs, pages });
+    reply.code(200).send({ data: events, pages });
   } catch (error) {
     reply.code(500).send({ msg: "server error" });
     fastify.log.error(error);
   }
 };
 
-module.exports = getStaffBlogs;
+module.exports = getStaffEvents;

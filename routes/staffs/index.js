@@ -9,6 +9,7 @@ const {
   resetPassword,
   getAllStaffs,
   getStaffDetail,
+  deleteStaff,
 } = require("../../controllers/staff");
 
 const staffAuth = require("../../middlewares/staffAuth");
@@ -124,6 +125,23 @@ module.exports = async function (fastify) {
             },
             email: {
               type: "string",
+            },
+            permission: {
+              type: "object",
+              properties: {
+                name: {
+                  type: "string",
+                },
+                permissions: {
+                  type: "object",
+                  patternProperties: {
+                    "^.*$": {
+                      anyOf: [{ type: "array", items: "string" }],
+                    },
+                  },
+                  additionalProperties: false,
+                },
+              },
             },
           },
         },
@@ -492,7 +510,7 @@ module.exports = async function (fastify) {
 
   // @route   GET staffs/staff-detail/:id
   // @desc    gets user info based on id
-  // @access  public
+  // @access  private
   fastify.route({
     method: "GET",
     url: "/all-staffs",
@@ -575,5 +593,72 @@ module.exports = async function (fastify) {
     },
     preHandler: staffAuth,
     handler: (request, reply) => getAllStaffs(request, reply, fastify),
+  });
+
+  // @route   DELETE staffs/:id
+  // @desc    deletes a user based on id
+  // @access  private
+  fastify.route({
+    method: "DELETE",
+    url: "/:id",
+    schema: {
+      tags: ["Staffs"],
+      description: "deletes a staff based on id",
+      params: {
+        type: "object",
+        required: ["id"],
+        properties: {
+          id: { type: "string" },
+        },
+      },
+      response: {
+        204: {
+          type: "string",
+          default: "no content",
+        },
+        401: {
+          type: "object",
+          properties: {
+            msg: {
+              type: "string",
+            },
+          },
+        },
+        403: {
+          type: "object",
+          properties: {
+            msg: {
+              type: "string",
+            },
+          },
+        },
+        400: {
+          type: "object",
+          properties: {
+            msg: {
+              type: "string",
+            },
+          },
+        },
+        403: {
+          type: "object",
+          properties: {
+            msg: {
+              type: "string",
+            },
+          },
+        },
+        500: {
+          type: "object",
+          properties: {
+            msg: {
+              type: "string",
+            },
+          },
+        },
+      },
+    },
+    preHandler: staffAuth,
+    handler: (request, reply) => deleteStaff(request, reply, fastify),
   });
 };

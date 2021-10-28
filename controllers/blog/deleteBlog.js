@@ -1,4 +1,4 @@
-const deleteNote = async (request, reply, fastify) => {
+const deleteBlog = async (request, reply, fastify) => {
   try {
     const { docId } = request.params;
     const _id = request.staff;
@@ -10,4 +10,4 @@ const deleteNote = async (request, reply, fastify) => {
   }
 };
 
-module.exports = deleteNote;
+module.exports = deleteBlog;

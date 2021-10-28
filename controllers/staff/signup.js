@@ -49,12 +49,12 @@ const signup = async (request, reply, fastify) => {
         expireAt: twentyMinutesLater,
       });
 
-      await sendEmail({
-        from: "thuvaragan <thuvaraganuidesigns@gmail.com>", // sender address
-        to: email, // list of receivers
-        subject: "Reset password", // Subject line
-        html: `<h1>Your token <a href="#" target="_blank">http://localhost:8080/change-password/${token}</a></h1>`, // html body
-      });
+      // await sendEmail({
+      //   from: "thuvaragan <thuvaraganuidesigns@gmail.com>", // sender address
+      //   to: email, // list of receivers
+      //   subject: "Reset password", // Subject line
+      //   html: `<h1>Your token <a href="#" target="_blank">http://localhost:8080/change-password/${token}</a></h1>`, // html body
+      // });
 
       reply.code(201).send({ username, email });
     } else {

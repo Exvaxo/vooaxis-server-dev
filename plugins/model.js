@@ -5,6 +5,7 @@ const User = require("../model/User");
 const Staff = require("../model/Staff");
 const Permission = require("../model/Permission");
 const Blog = require("../model/Blog");
+const Event = require("../model/Event");
 const MediaBank = require("../model/MediaBank");
 const ResetPasswordSession = require("../model/Reset_Password_Session");
 
@@ -15,6 +16,7 @@ module.exports = fp((fastify, opts, next) => {
   fastify.decorate("Staff", Staff);
   fastify.decorate("Permission", Permission);
   fastify.decorate("Blog", Blog);
+  fastify.decorate("Event", Event);
   fastify.decorate("MediaBank", MediaBank);
   fastify.decorate("ResetPasswordSession", ResetPasswordSession);
   next();

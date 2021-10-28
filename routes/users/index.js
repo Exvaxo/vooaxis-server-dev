@@ -105,6 +105,23 @@ module.exports = async function (fastify) {
             email: {
               type: "string",
             },
+            permission: {
+              type: "object",
+              properties: {
+                name: {
+                  type: "string",
+                },
+                permissions: {
+                  type: "object",
+                  patternProperties: {
+                    "^.*$": {
+                      anyOf: [{ type: "array", items: "string" }],
+                    },
+                  },
+                  additionalProperties: false,
+                },
+              },
+            },
           },
         },
         400: {
