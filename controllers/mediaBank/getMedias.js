@@ -6,6 +6,7 @@ const getMedias = async (request, reply, fastify) => {
     let medias;
     if (filter["filter[name]"] || filter["filter[type]"]) {
       let filterObj = {};
+
       if (filter["filter[name]"]) {
         filterObj.name = { $regex: filter["filter[name]"], $options: "si" };
       }

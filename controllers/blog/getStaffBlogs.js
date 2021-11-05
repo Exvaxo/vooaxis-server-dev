@@ -19,9 +19,23 @@ const getStaffBlogs = async (request, reply, fastify) => {
       return;
     }
 
+    const isPublishEligible = await fastify.getPermissions(_id, [
+      { rule: "Event", priviledges: ["publish"] },
+    ]);
+
+    if (!isPublishEligible) {
+      filters.staff = _id;
+    } else {
+      delete filters.staff;
+    }
+
     if (filter["filter[isPublished]"]) {
       filters.isPublished =
         filter["filter[isPublished]"] === "true" ? true : false;
+
+      if (!filters.isPublished) {
+        filters.staff = _id;
+      }
     }
 
     if (filter["filter[category]"]) {

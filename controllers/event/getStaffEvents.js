@@ -6,7 +6,7 @@ const getStaffEvents = async (request, reply, fastify) => {
     let events;
     let pages = 1;
     let filters = {};
-    let perPage = 2;
+    let perPage = 15;
 
     const isEligible = await fastify.getPermissions(_id, [
       { rule: "Event", priviledges: ["read"] },
@@ -19,11 +19,23 @@ const getStaffEvents = async (request, reply, fastify) => {
       return;
     }
 
-    //filters.staff = _id;
+    const isPublishEligible = await fastify.getPermissions(_id, [
+      { rule: "Event", priviledges: ["publish"] },
+    ]);
+
+    if (!isPublishEligible) {
+      filters.staff = _id;
+    } else {
+      delete filters.staff;
+    }
 
     if (filter["filter[isPublished]"]) {
       filters.isPublished =
         filter["filter[isPublished]"] === "true" ? true : false;
+
+      if (!filters.isPublished) {
+        filters.staff = _id;
+      }
     }
 
     if (filter["filter[isUnderReview]"]) {

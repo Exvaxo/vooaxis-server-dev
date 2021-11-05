@@ -111,6 +111,9 @@ module.exports = async function (fastify) {
                   title: {
                     type: "string",
                   },
+                  subtitle: {
+                    type: "string",
+                  },
                   date: {
                     type: "string",
                   },
@@ -233,6 +236,9 @@ module.exports = async function (fastify) {
               type: "string",
             },
             title: {
+              type: "string",
+            },
+            subtitle: {
               type: "string",
             },
             date: {
@@ -384,6 +390,9 @@ module.exports = async function (fastify) {
           title: {
             type: "string",
           },
+          subtitle: {
+            type: "string",
+          },
           date: {
             type: "string",
           },
@@ -461,6 +470,10 @@ module.exports = async function (fastify) {
             },
 
             title: {
+              type: "string",
+            },
+
+            subtitle: {
               type: "string",
             },
 

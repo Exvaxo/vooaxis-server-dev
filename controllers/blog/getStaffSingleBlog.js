@@ -3,9 +3,19 @@ const getStaffSingleBlog = async (request, reply, fastify) => {
     const _id = request.staff;
     const { docId } = request.params;
 
+    const isEligible = await fastify.getPermissions(_id, [
+      { rule: "Blog", priviledges: ["read"] },
+    ]);
+
+    if (!isEligible) {
+      reply
+        .code(403)
+        .send({ msg: "You have no permission to perform this task." });
+      return;
+    }
+
     const blog = await fastify.Blog.findOne({
       documentId: docId,
-      staff: _id,
     });
     reply.code(200).send(blog);
   } catch (error) {

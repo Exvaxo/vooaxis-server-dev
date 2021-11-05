@@ -8,6 +8,7 @@ const eventSchema = new Schema(
     },
 
     title: String, // String is shorthand for {type: String}
+    subtitle: String,
     slug: String,
     date: Date,
     eventDetails: String,

@@ -49,6 +49,7 @@ const signup = async (request, reply, fastify) => {
         expireAt: twentyMinutesLater,
       });
 
+      //todo uncomment in prod
       // await sendEmail({
       //   from: "thuvaragan <thuvaraganuidesigns@gmail.com>", // sender address
       //   to: email, // list of receivers

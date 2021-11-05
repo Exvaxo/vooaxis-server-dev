@@ -5,6 +5,8 @@ const updateEvent = async (request, reply, fastify) => {
     const body = request.body;
     const _id = request.staff;
 
+    const filter = { documentId: docId };
+
     const isEligible = await fastify.getPermissions(_id, [
       { rule: "Event", priviledges: ["update"] },
     ]);
@@ -16,6 +18,16 @@ const updateEvent = async (request, reply, fastify) => {
       return;
     }
 
+    const isPublishEligible = await fastify.getPermissions(_id, [
+      { rule: "Event", priviledges: ["publish"] },
+    ]);
+
+    if (!isPublishEligible) {
+      filter.staff = _id;
+    } else {
+      delete filter.staff;
+    }
+
     let obj = {
       ...body,
     };
@@ -24,7 +36,7 @@ const updateEvent = async (request, reply, fastify) => {
       obj.date = moment(body.date, "DD/MM/YYYY");
     }
 
-    await fastify.Event.updateOne({ documentId: docId, staff: _id }, obj);
+    await fastify.Event.updateOne(filter, obj);
     reply.code(201).send({ documentId: docId, ...obj });
   } catch (error) {
     reply.code(500).send({ msg: "server error" });
