@@ -511,7 +511,7 @@ module.exports = async function (fastify) {
   });
 
   // @route   DELETE folder/:id
-  // @desc    deletes a media inside a folder
+  // @desc    deletes a folder
   // @access  private
   fastify.route({
     method: "DELETE",
@@ -534,6 +534,14 @@ module.exports = async function (fastify) {
           default: "no content",
         },
         401: {
+          type: "object",
+          properties: {
+            msg: {
+              type: "string",
+            },
+          },
+        },
+        403: {
           type: "object",
           properties: {
             msg: {

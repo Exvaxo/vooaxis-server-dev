@@ -14,7 +14,7 @@ const sendResetPasswordToken = async (request, reply, fastify) => {
     }
 
     const currentDate = new Date();
-    const TTL_IN_MINS = 2; //expires in 20 mins //todo change to 20 in production
+    const TTL_IN_MINS = 20; //expires in 20 mins //todo change to 20 in production
     const twentyMinutesLater = new Date(
       currentDate.getTime() + TTL_IN_MINS * 60 * 1000
     );

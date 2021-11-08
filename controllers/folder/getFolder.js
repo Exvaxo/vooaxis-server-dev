@@ -6,6 +6,19 @@ const getFolders = async (request, reply, fastify) => {
     let medias;
     let pages = 1;
 
+    const user_id = request.staff;
+
+    const isEligible = await fastify.getPermissions(user_id, [
+      { rule: "Gallery", priviledges: ["read"] },
+    ]);
+
+    if (!isEligible) {
+      reply
+        .code(403)
+        .send({ msg: "You have no permission to perform this task." });
+      return;
+    }
+
     if (filter["filter[folderName]"]) {
       let filterObj = {};
 
